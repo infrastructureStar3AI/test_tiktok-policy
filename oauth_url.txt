@@ -1,0 +1,1 @@
+https://www.tiktok.com/v2/auth/authorize/?response_type=code&client_id=aw5snxbk7d5ngdiy&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Ftiktok%2Fcallback&scope=user.info.basic+video.publish+video.upload&state=eyJlbWFpbCI6ICJ0ZXN0QGV4YW1wbGUuY29tIiwgInBsYXRmb3JtIjogIndlYiJ9

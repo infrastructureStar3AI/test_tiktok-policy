@@ -1,0 +1,165 @@
+{
+  "info": {
+    "name": "TikTok Login API",
+    "description": "Complete TikTok OAuth and video API testing collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Test if the API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "TikTok OAuth Login",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/auth/tiktok/login?email={{test_email}}&platform={{platform}}",
+          "host": ["{{base_url}}"],
+          "path": ["auth", "tiktok", "login"],
+          "query": [
+            {
+              "key": "email",
+              "value": "{{test_email}}",
+              "description": "User email for OAuth state"
+            },
+            {
+              "key": "platform",
+              "value": "{{platform}}",
+              "description": "Platform type: web or app"
+            }
+          ]
+        },
+        "description": "Initiate TikTok OAuth login flow. This will return a 302 redirect to TikTok's authorization page."
+      },
+      "response": []
+    },
+    {
+      "name": "TikTok OAuth Callback",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/auth/tiktok/callback?code={{auth_code}}&state={{state}}",
+          "host": ["{{base_url}}"],
+          "path": ["auth", "tiktok", "callback"],
+          "query": [
+            {
+              "key": "code",
+              "value": "{{auth_code}}",
+              "description": "Authorization code from TikTok"
+            },
+            {
+              "key": "state",
+              "value": "{{state}}",
+              "description": "State parameter from OAuth flow"
+            }
+          ]
+        },
+        "description": "Handle OAuth callback from TikTok (normally called automatically)"
+      },
+      "response": []
+    },
+    {
+      "name": "Get TikTok Accounts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/tiktok/accounts",
+          "host": ["{{base_url}}"],
+          "path": ["api", "tiktok", "accounts"]
+        },
+        "description": "Get user's connected TikTok accounts"
+      },
+      "response": []
+    },
+    {
+      "name": "Get TikTok Videos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/tiktok/videos/{{provider_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "tiktok", "videos", "{{provider_id}}"],
+          "variable": [
+            {
+              "key": "provider_id",
+              "value": "test_tiktok_id",
+              "description": "TikTok user ID"
+            }
+          ]
+        },
+        "description": "Get user's TikTok videos"
+      },
+      "response": []
+    },
+    {
+      "name": "Create TikTok Video Post",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provider_id\": \"test_tiktok_id\",\n  \"content\": {\n    \"video_url\": \"https://example.com/sample-video.mp4\",\n    \"description\": \"Test video post from API\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/tiktok/video/create",
+          "host": ["{{base_url}}"],
+          "path": ["api", "tiktok", "video", "create"]
+        },
+        "description": "Create a new TikTok video post"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "test_email",
+      "value": "test@example.com",
+      "type": "string"
+    },
+    {
+      "key": "platform",
+      "value": "web",
+      "type": "string"
+    },
+    {
+      "key": "provider_id",
+      "value": "test_tiktok_id",
+      "type": "string"
+    },
+    {
+      "key": "auth_code",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "state",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
