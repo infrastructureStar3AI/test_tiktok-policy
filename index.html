@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok OAuth Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: #ff0050;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d6004a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .status-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+
+        .status-item.success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .status-item.warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .status-item.info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .endpoints {
+            margin-top: 20px;
+        }
+
+        .endpoint {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .endpoint-method {
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .endpoint-method.get {
+            background: #28a745;
+        }
+
+        .endpoint-method.post {
+            background: #007bff;
+        }
+
+        .endpoint-url {
+            font-family: monospace;
+            flex-grow: 1;
+            margin: 0 15px;
+        }
+
+        .test-btn {
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .endpoint {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .endpoint-url {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎵 TikTok OAuth Test Suite</h1>
+        <p>Complete testing environment for TikTok OAuth integration</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-icon">🚀</div>
+            <h3>Interactive Login Test</h3>
+            <p>Test TikTok OAuth flow with a user-friendly interface. Start the OAuth process and see results in real-time.</p>
+            <a href="test_login.html" class="btn btn-primary">Start Login Test</a>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">📊</div>
+            <h3>API Documentation</h3>
+            <p>View the complete API documentation with interactive testing capabilities powered by FastAPI.</p>
+            <a href="http://localhost:8000/docs" class="btn btn-secondary" target="_blank">Local Docs</a>
+            <a href="https://ce1df3eca9e6.ngrok-free.app/docs" class="btn btn-secondary" target="_blank">Public Docs</a>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🔧</div>
+            <h3>Python Test Script</h3>
+            <p>Run automated tests using the Python script to verify all endpoints and functionality.</p>
+            <button onclick="runPythonTest()" class="btn btn-success">Run Python Tests</button>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">📱</div>
+            <h3>Ngrok Public URL</h3>
+            <p>Access your local server through ngrok for external testing and TikTok app configuration.</p>
+            <a href="https://ce1df3eca9e6.ngrok-free.app" class="btn btn-primary" target="_blank">Open Public URL</a>
+            <a href="http://127.0.0.1:4040" class="btn btn-secondary" target="_blank">Ngrok Dashboard</a>
+        </div>
+    </div>
+
+    <div class="status-section">
+        <h3>📋 Configuration Status</h3>
+        
+        <div class="status-grid">
+            <div class="status-item success">
+                <h4>✅ Credentials</h4>
+                <p>TikTok Client ID & Secret configured</p>
+            </div>
+            
+            <div class="status-item success">
+                <h4>✅ Ngrok Tunnel</h4>
+                <p>Public URL active for testing</p>
+            </div>
+            
+            <div class="status-item info">
+                <h4>📡 Server Status</h4>
+                <p id="server-status">Checking...</p>
+            </div>
+            
+            <div class="status-item warning">
+                <h4>⚙️ TikTok App</h4>
+                <p>Configure callback URL in TikTok Developer Console</p>
+            </div>
+        </div>
+
+        <div class="endpoints">
+            <h4>🛠️ Available Endpoints</h4>
+            
+            <div class="endpoint">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-url">/auth/tiktok/login</span>
+                <button onclick="testEndpoint('/')" class="btn test-btn btn-secondary">Test</button>
+            </div>
+            
+            <div class="endpoint">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-url">/auth/tiktok/callback</span>
+                <button onclick="testEndpoint('/auth/tiktok/callback')" class="btn test-btn btn-secondary">Test</button>
+            </div>
+            
+            <div class="endpoint">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-url">/api/tiktok/accounts</span>
+                <button onclick="testEndpoint('/api/tiktok/accounts')" class="btn test-btn btn-secondary">Test</button>
+            </div>
+            
+            <div class="endpoint">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-url">/api/tiktok/video/create</span>
+                <button onclick="testEndpoint('/api/tiktok/video/create', 'POST')" class="btn test-btn btn-secondary">Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check server status on load
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('http://localhost:8000/');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('server-status').textContent = `Running: ${data.status}`;
+                    document.querySelector('.status-item:nth-child(3)').className = 'status-item success';
+                    document.querySelector('.status-item:nth-child(3) h4').textContent = '✅ Server Status';
+                } else {
+                    document.getElementById('server-status').textContent = 'Server error';
+                }
+            } catch (error) {
+                document.getElementById('server-status').textContent = 'Server offline';
+                document.querySelector('.status-item:nth-child(3)').className = 'status-item warning';
+                document.querySelector('.status-item:nth-child(3) h4').textContent = '⚠️ Server Status';
+            }
+        }
+
+        // Test individual endpoint
+        async function testEndpoint(endpoint, method = 'GET') {
+            const baseUrl = 'http://localhost:8000';
+            const url = baseUrl + endpoint;
+            
+            try {
+                let options = { method };
+                
+                if (method === 'POST' && endpoint === '/api/tiktok/video/create') {
+                    options.headers = { 'Content-Type': 'application/json' };
+                    options.body = JSON.stringify({
+                        provider_id: "test_tiktok_id",
+                        content: {
+                            video_url: "https://example.com/test_video.mp4",
+                            description: "Test video description"
+                        }
+                    });
+                }
+                
+                const response = await fetch(url, options);
+                const data = await response.json();
+                
+                alert(`${method} ${endpoint}\nStatus: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                alert(`Error testing ${endpoint}: ${error.message}`);
+            }
+        }
+
+        // Run Python test script
+        function runPythonTest() {
+            alert('Python test script should be run in terminal:\n\npython test_api.py\n\nOr check the terminal output in VS Code.');
+        }
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            checkServerStatus();
+            
+            // Update status every 30 seconds
+            setInterval(checkServerStatus, 30000);
+        });
+    </script>
+</body>
+</html>

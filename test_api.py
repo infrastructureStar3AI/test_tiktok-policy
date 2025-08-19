@@ -6,10 +6,39 @@ This script demonstrates how to use the TikTok OAuth API endpoints
 
 import requests
 import json
+import os
 from urllib.parse import parse_qs, urlparse
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # API base URL
 BASE_URL = "http://localhost:8000"
+# Ngrok public URL for external testing
+NGROK_URL = "https://ce1df3eca9e6.ngrok-free.app"
+
+# TikTok credentials from environment
+TIKTOK_CLIENT_ID = os.getenv('TIKTOK_CLIENT_ID')
+TIKTOK_CLIENT_SECRET = os.getenv('TIKTOK_CLIENT_SECRET')
+
+def test_credentials():
+    """Test TikTok credentials configuration"""
+    print("🔑 Testing TikTok credentials configuration...")
+    
+    if not TIKTOK_CLIENT_ID:
+        print("❌ TIKTOK_CLIENT_ID not found in environment variables")
+    else:
+        print(f"✅ TIKTOK_CLIENT_ID: {TIKTOK_CLIENT_ID}")
+    
+    if not TIKTOK_CLIENT_SECRET:
+        print("❌ TIKTOK_CLIENT_SECRET not found in environment variables")
+    else:
+        # Only show first 8 characters for security
+        masked_secret = TIKTOK_CLIENT_SECRET[:8] + "*" * (len(TIKTOK_CLIENT_SECRET) - 8)
+        print(f"✅ TIKTOK_CLIENT_SECRET: {masked_secret}")
+    
+    print()
 
 def test_health_check():
     """Test the health check endpoint"""
@@ -82,19 +111,35 @@ def test_create_video_post():
         print(f"Error: {e}")
     print()
 
+def test_with_ngrok():
+    """Test with ngrok public URL"""
+    print("🌐 Testing with ngrok public URL...")
+    try:
+        response = requests.get(f"{NGROK_URL}/")
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        print(f"✅ Your API is accessible via: {NGROK_URL}")
+    except Exception as e:
+        print(f"❌ Error accessing ngrok URL: {e}")
+    print()
+
 def main():
     """Run all tests"""
     print("🚀 Starting TikTok Login API Tests")
     print("=" * 50)
     
+    test_credentials()
     test_health_check()
     test_tiktok_login()
     test_get_accounts()
     test_create_video_post()
+    test_with_ngrok()
     
     print("✅ All tests completed!")
     print("\nTo view the interactive API documentation, visit:")
-    print(f"{BASE_URL}/docs")
+    print(f"Local: {BASE_URL}/docs")
+    print(f"Public: {NGROK_URL}/docs")
+    print(f"\n📋 For TikTok OAuth callback, use: {NGROK_URL}/auth/tiktok/callback")
 
 if __name__ == "__main__":
     main()

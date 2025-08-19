@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok OAuth Login Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #ff0050;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d6004a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e1e1e1;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .info-value {
+            color: #333;
+            font-family: monospace;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .endpoints {
+            margin-top: 20px;
+        }
+
+        .endpoint {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🎵</div>
+        <h1>TikTok OAuth Login Test</h1>
+        <p class="subtitle">Test your TikTok OAuth integration</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="test@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="platform">Platform:</label>
+                <select id="platform">
+                    <option value="web">Web</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="desktop">Desktop</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="baseUrl">API Base URL:</label>
+                <select id="baseUrl">
+                    <option value="http://localhost:8000">Local (localhost:8000)</option>
+                    <option value="https://ce1df3eca9e6.ngrok-free.app">Ngrok (Public)</option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">🚀 Start TikTok Login</button>
+                <button type="button" class="btn btn-secondary" onclick="testAPI()">🔍 Test API</button>
+            </div>
+        </form>
+
+        <div class="info-section">
+            <div class="info-title">📋 Configuration Info</div>
+            <div class="info-item">
+                <span class="info-label">Client ID:</span>
+                <span class="info-value">aw2rtx9xhr1cohbh</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Scopes:</span>
+                <span class="info-value">user.info.basic video.publish video.upload</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Callback URL:</span>
+                <span class="info-value">{BASE_URL}/auth/tiktok/callback</span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">🛠️ Available Endpoints</div>
+            <div class="endpoints">
+                <div class="endpoint">
+                    <strong>GET</strong> /auth/tiktok/login - Start OAuth flow
+                </div>
+                <div class="endpoint">
+                    <strong>GET</strong> /auth/tiktok/callback - Handle OAuth callback
+                </div>
+                <div class="endpoint">
+                    <strong>GET</strong> /api/tiktok/accounts - Get user accounts
+                </div>
+                <div class="endpoint">
+                    <strong>POST</strong> /api/tiktok/video/create - Create video post
+                </div>
+                <div class="endpoint">
+                    <strong>GET</strong> /docs - API Documentation
+                </div>
+            </div>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const platform = document.getElementById('platform').value;
+            const baseUrl = document.getElementById('baseUrl').value;
+            
+            // Construct login URL
+            const loginUrl = `${baseUrl}/auth/tiktok/login?email=${encodeURIComponent(email)}&platform=${encodeURIComponent(platform)}`;
+            
+            // Show status
+            showStatus(`🚀 Redirecting to TikTok OAuth...`, 'success');
+            
+            // Open in new window/tab
+            window.open(loginUrl, '_blank');
+        });
+
+        // Test API function
+        async function testAPI() {
+            const baseUrl = document.getElementById('baseUrl').value;
+            showStatus('🔍 Testing API connection...', 'success');
+            
+            try {
+                const response = await fetch(`${baseUrl}/`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showStatus(`✅ API is working! Status: ${data.status}`, 'success');
+                } else {
+                    showStatus(`❌ API error: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                statusDiv.textContent = '';
+                statusDiv.className = '';
+            }, 5000);
+        }
+
+        // Update callback URL in info when base URL changes
+        document.getElementById('baseUrl').addEventListener('change', function() {
+            const baseUrl = this.value;
+            const callbackElement = document.querySelector('.info-value:last-child');
+            callbackElement.textContent = `${baseUrl}/auth/tiktok/callback`;
+        });
+
+        // Check if we're on the callback page
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            
+            if (code) {
+                showStatus(`✅ OAuth successful! Authorization code received.`, 'success');
+            } else if (error) {
+                showStatus(`❌ OAuth error: ${error}`, 'error');
+            }
+        });
+
+        // Auto-test API on load
+        window.addEventListener('load', function() {
+            setTimeout(testAPI, 1000);
+        });
+    </script>
+</body>
+</html>
